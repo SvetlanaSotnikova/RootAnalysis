@@ -1,5 +1,7 @@
 import org.utm.logger.Writer;
 import org.utm.methods.BisectionMethod;
+import org.utm.methods.NewtonMethod;
+import org.utm.methods.SecantMethod;
 import org.utm.methods.SuccessiveApproximations;
 import org.utm.utils.RealRoots;
 
@@ -15,5 +17,9 @@ public class Main {
         BisectionMethod.initBisectionMethod();
         // 2.1) метод итераций
         SuccessiveApproximations.initSuccessiveApproximations();
+        // 2.2) метод Ньютона
+        NewtonMethod.initNewtonMethod();
+        // 2.3) Метод Секущих
+        SecantMethod.initSecantMethod();
     }
 }

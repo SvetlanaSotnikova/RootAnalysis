@@ -65,19 +65,21 @@ public class BisectionMethod {
 //      внутри функции а не в виде константы в этом классе
         double alfa = RealRoots.alfa;
         double beta = RealRoots.beta;
+
         double fa = RealRoots.functionA(alfa);
         double fb = RealRoots.functionA(beta);
 
         if (fa * fb >= 0) {
+            // логируем исключение
             logWriterA.log("Функция не меняет знак на конца интервала!!\n");
             // ловим исключение
             throw new IllegalArgumentException("Функция не меняет знак на конца интервала");
         }
         StringBuilder logBuilder = new StringBuilder();
-        logBuilder.append("Результаты половинного деления:\n");
+        logBuilder.append("\nРезультаты половинного деления:\n");
 
-        double c = 0;
-        int iteration = 0;
+        double c = 0; //значение результата итераций
+        int iteration = 0; // counter
 
         // начало итераций вычисления корня
         while ((beta - alfa) / 2 >= epsilon) {
@@ -97,13 +99,11 @@ public class BisectionMethod {
             // Определяем новый интервал
             if (fc * fa < 0) {  // [alfa, c]
                 beta = c;
-                fb = fc;
             } else {            // [c, beta]
                 alfa = c;
-                fa = fc;
             }
         }
-        logWriterA.log(logBuilder.toString());
+        logWriterA.log(logBuilder.toString()); // логирование
         return c;
     }
 

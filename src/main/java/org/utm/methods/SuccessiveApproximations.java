@@ -10,21 +10,22 @@ import org.utm.utils.RealRoots;
  */
 public class SuccessiveApproximations {
     /**
-     * необходиммые константы для логирования
+     * Константы для логирования в файл.
+     * Лог файл для функции A, используемый для записи хода вычислений.
      */
     private static final String LOG_FILE_FUNCTION_A = "src/main/resources/methodsFunctionA.txt";
     private static final LogWriter logWriterA = msg -> Writer.writeObject(msg, LOG_FILE_FUNCTION_A);
 
     /**
      * Константные значения интервала [alfa, beta], в котором ищется корень.
-     * alfa - начальная граница интервала.
-     * beta - конечная граница интервала.
+     * Значения получаются из класса RealRoots.
      */
     private static final double alfa = RealRoots.alfa;
     private static final double beta = RealRoots.beta;
 
     /**
-     * Точность (ε) для метода последовательных приближений.
+     * Значение точности (ε) для метода последовательных приближений.
+     * Используется для критерия остановки метода (разница между итерациями).
      */
     private static final double epsilon = Epsilons.epsilonSuccessive; //1e-6
 
@@ -48,7 +49,8 @@ public class SuccessiveApproximations {
     }
 
     /**
-     * Инициализирует метод последовательных приближений и выводит результат.
+     * Инициализирует метод последовательных приближений для функции A и выводит результат.
+     * Проводится логирование описания метода и найденного корня.
      */
     public static void initSuccessiveApproximations() {
         // записываем описание метода в файл
@@ -64,8 +66,7 @@ public class SuccessiveApproximations {
      * описание метода и запись в файл
      */
     private static void writeDescriptionMethodToFile() {
-        String log = "метод итераций\n".toUpperCase();
-        // запись нашего интервала в файла
+        String log = "метод итераций\n".toUpperCase(); // заголовок
 
         log += "alfa = " + alfa + ", betta = " + beta + "\n";
         log += String.format("a = alfa - (beta - alfa) = %.2f\n" +
@@ -79,8 +80,8 @@ public class SuccessiveApproximations {
     }
 
     /**
-     * * Метод для нахождения корня функции методом итераций
-     * * @return приближенное значение корня для функции из пункта (а)
+     * Метод для нахождения корня функции методом итераций
+     * @return приближенное значение корня для функции из пункта (а)
      */
     private static double successiveApproximationsForFunctionA() {
         StringBuilder logBuilder = new StringBuilder();
@@ -95,7 +96,7 @@ public class SuccessiveApproximations {
         // Итерации до тех пор, пока разность между текущим и предыдущим значениями не станет меньше ε.
         while (Math.abs(xNext - xPrev) >= epsilon) {
             iteration++;
-            xPrev = xNext;
+            xPrev = xNext; // присваиваем начальному значению вычисленное следующее
             xNext = (0.5 - Math.pow(2, xPrev)) / 3; // следующее значение
 
             logBuilder.append(String.format("x%d. f(%f) = (0.5 -2^(%f))/3 = %f\n",
@@ -107,6 +108,7 @@ public class SuccessiveApproximations {
 
     /**
      * Проверка корректности найденного корня.
+     *
      * @param root найденное приближенное значение корня.
      */
     private static void verifyResult(double root) {

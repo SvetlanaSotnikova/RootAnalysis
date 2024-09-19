@@ -6,10 +6,17 @@ package org.utm.utils;
  * A - 2^x+3x-0.5
  */
 public class RealRoots {
-    public static double alfa;
-    public static double beta;
+    // Границы интервала для поиска корней
+    public static double alfa; // начало интервала
+    public static double beta; // конец интервала
 
-    // f(x) = 2^x + 3x - 0.5
+    /**
+     * Реализация функции A: f(x) = 2^x + 3x - 0.5.
+     * Используется для нахождения корней уравнения f(x) = 0.
+     *
+     * @param x значение аргумента x
+     * @return значение функции f(x) при данном x
+     */
     public static double functionA(double x) {
         return Math.pow(2, x) + 3 * x - 0.5;
     }
@@ -18,6 +25,16 @@ public class RealRoots {
         return 0;
     }
 
+    /**
+     * Поиск интервала, где функция меняет знак, что указывает на наличие корня.
+     * Метод проверяет значения функции на шаге, определяя, где происходит смена знака.
+     * Если обнаружено изменение знака, то устанавливаются значения alfa и beta,
+     * как границы интервала, в котором лежит корень.
+     *
+     * @param start начало диапазона поиска
+     * @param end конец диапазона поиска
+     * @param step шаг между точками на интервале
+     */
     public static void findInterval(double start, double end, double step) {
         double value = functionA(start);
         for (double i = start + step; i <= end; i += step) {
@@ -31,6 +48,10 @@ public class RealRoots {
             value = currentValue;
         }
     }
+    /**
+     * Возвращает строковое представление интервала, где был найден корень.
+     * @return интервал в формате [alfa, beta]
+     */
     public static String getInterval() {
         return String.format("[%.2f, %.2f]", alfa, beta);
     }
