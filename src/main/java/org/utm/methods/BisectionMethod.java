@@ -1,6 +1,6 @@
 package org.utm.methods;
 
-import org.utm.logger.Writer;
+import org.utm.logger.Logger;
 import org.utm.utils.Epsilons;
 import org.utm.utils.RealRoots;
 import org.utm.logger.LogWriter;
@@ -11,12 +11,6 @@ import org.utm.logger.LogWriter;
  * постепенно уменьшая интервал до достижения заданной точности.
  */
 public class BisectionMethod {
-    /**
-     * переменные для логирования
-     */
-    private static final String LOG_FILE_FUNCTION_A = "src/main/resources/methodsFunctionA.txt";
-    private static final LogWriter logWriterA = msg -> Writer.writeObject(msg, LOG_FILE_FUNCTION_A);
-
     /**
      * Точность вычислений (epsilon)
      */
@@ -48,7 +42,7 @@ public class BisectionMethod {
                 RealRoots.alfa, RealRoots.beta);
 
         // запись информации о методе в файл
-        logWriterA.log(log);
+        Logger.logFunctionA(log);
     }
 
     /**
@@ -71,7 +65,7 @@ public class BisectionMethod {
 
         if (fa * fb >= 0) {
             // логируем исключение
-            logWriterA.log("Функция не меняет знак на конца интервала!!\n");
+            Logger.logFunctionA("Функция не меняет знак на конца интервала!!\n");
             // ловим исключение
             throw new IllegalArgumentException("Функция не меняет знак на конца интервала");
         }
@@ -103,7 +97,7 @@ public class BisectionMethod {
                 alfa = c;
             }
         }
-        logWriterA.log(logBuilder.toString()); // логирование
+        Logger.logFunctionA(logBuilder.toString()); // логирование
         return c;
     }
 

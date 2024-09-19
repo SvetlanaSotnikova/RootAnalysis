@@ -1,7 +1,7 @@
 package org.utm.methods;
 
 import org.utm.logger.LogWriter;
-import org.utm.logger.Writer;
+import org.utm.logger.Logger;
 import org.utm.utils.Epsilons;
 import org.utm.utils.RealRoots;
 
@@ -9,12 +9,6 @@ import org.utm.utils.RealRoots;
  * Метод секущих для нахождения корней функции.
  */
 public class SecantMethod {
-    /**
-     * Файл для логирования результатов метода Ньютона для функции A.
-     */
-    private static final String LOG_FILE_FUNCTION_A = "src/main/resources/methodsFunctionA.txt";
-    private static final LogWriter logWriterA = msg -> Writer.writeObject(msg, LOG_FILE_FUNCTION_A);
-
     /**
      * Точность (ε) для метода секущих.
      */
@@ -48,7 +42,7 @@ public class SecantMethod {
         log += "Формула: x(n+1) = x(n) - f(x(n)) * (x(n) - x(n-1)) / (f(x(n)) - f(x(n-1)))\n";
 
         // Запись информации о методе в файл
-        logWriterA.log(log);
+        Logger.logFunctionA(log);
     }
 
     /**
@@ -86,7 +80,7 @@ public class SecantMethod {
             iteration++;
         }
         // Запись логов в файл
-        logWriterA.log(logBuilder.toString());
+        Logger.logFunctionA(logBuilder.toString());
         return x1;
     }
 

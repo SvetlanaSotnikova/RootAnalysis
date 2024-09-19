@@ -1,7 +1,7 @@
 package org.utm.methods;
 
 import org.utm.logger.LogWriter;
-import org.utm.logger.Writer;
+import org.utm.logger.Logger;
 import org.utm.utils.Epsilons;
 import org.utm.utils.RealRoots;
 
@@ -14,7 +14,7 @@ public class SuccessiveApproximations {
      * Лог файл для функции A, используемый для записи хода вычислений.
      */
     private static final String LOG_FILE_FUNCTION_A = "src/main/resources/methodsFunctionA.txt";
-    private static final LogWriter logWriterA = msg -> Writer.writeObject(msg, LOG_FILE_FUNCTION_A);
+    private static final LogWriter logWriterA = msg -> Logger.writeToFile(msg, LOG_FILE_FUNCTION_A);
 
     /**
      * Константные значения интервала [alfa, beta], в котором ищется корень.
@@ -102,7 +102,7 @@ public class SuccessiveApproximations {
             logBuilder.append(String.format("x%d. f(%f) = (0.5 -2^(%f))/3 = %f\n",
                     iteration, xPrev, xPrev, xNext));
         }
-        logWriterA.log(logBuilder.toString());
+        Logger.logFunctionA(logBuilder.toString());
         return xNext;
     }
 

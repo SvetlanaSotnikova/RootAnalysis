@@ -1,7 +1,7 @@
 package org.utm.methods;
 
 import org.utm.logger.LogWriter;
-import org.utm.logger.Writer;
+import org.utm.logger.Logger;
 import org.utm.utils.Epsilons;
 import org.utm.utils.RealRoots;
 
@@ -9,12 +9,6 @@ import org.utm.utils.RealRoots;
  * Метод Ньютона (касательных) для нахождения корней функции.
  */
 public class NewtonMethod {
-    /**
-     * Файл для логирования результатов метода Ньютона для функции A.
-     */
-    private static final String LOG_FILE_FUNCTION_A = "src/main/resources/methodsFunctionA.txt";
-    private static final LogWriter logWriterA = msg -> Writer.writeObject(msg, LOG_FILE_FUNCTION_A);
-
     /**
      * Константные значения интервала [alfa, beta] и точности ε для метода Ньютона.
      */
@@ -48,7 +42,7 @@ public class NewtonMethod {
         log += "Формула:x(n+1) = x(n) - f(x(n)) / f'(x(n))\\n";
 
         // запись информации о методе в файл
-        logWriterA.log(log);
+        Logger.logFunctionA(log);
     }
 
     /**
@@ -96,7 +90,7 @@ public class NewtonMethod {
             xPrev = xNext;
             iteration++;
         }
-        logWriterA.log(logBuilder.toString());
+        Logger.logFunctionA(logBuilder.toString());
         return xNext;
     }
 
