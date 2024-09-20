@@ -6,7 +6,6 @@ import org.utm.utils.Epsilons;
 import java.util.function.Function;
 
 public abstract class RootGeneralMethods {
-    protected static final double epsilon = Epsilons.epsilonBisection; // 1e-6
 
     public void initMethod(String functionName, Function<Double, Double> function) {
         writeDescriptionMethodToFile(functionName);

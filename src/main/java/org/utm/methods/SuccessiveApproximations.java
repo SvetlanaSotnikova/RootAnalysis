@@ -1,8 +1,6 @@
 package org.utm.methods;
 
 import org.utm.logger.LogFunctionMapper;
-import org.utm.logger.LogWriter;
-import org.utm.logger.Logger;
 import org.utm.utils.Epsilons;
 import org.utm.utils.RealRoots;
 
@@ -11,7 +9,7 @@ import java.util.function.Function;
 /**
  * Метод последовательных приближений
  */
-public class SuccessiveApproximations extends RootGeneralMethods{
+public class SuccessiveApproximations extends RootGeneralMethods {
 
     /**
      * Константные значения интервала [alfa, beta], в котором ищется корень.
@@ -55,23 +53,44 @@ public class SuccessiveApproximations extends RootGeneralMethods{
         StringBuilder logBuilder = new StringBuilder();
 
         int iteration = 1;
-        double xPrev = getValueB(); // начальное значение
-        double xNext = (0.5 - Math.pow(2, xPrev)) / 3; // следующее значение
+        double xPrev = (beta + alfa) / 2; // начальное значение
+        double xNext; // следующее значение
+
+        xNext = computeNextValue(functionName, xPrev);
+
+
+        logBuilder.append("Формула: " + getFormula(functionName));
         logBuilder.append("Результат метода итераций: \n");
-        logBuilder.append(String.format("x%d. f(%f) = (0.5 -2^(%f))/3 = %f\n",
+        logBuilder.append(String.format(functionName.equals("A")
+                        ? "x%d. f(%f) = (0.5 -2^(%f))/3 = %f\n"
+                        : "x%d. f(%f) = cbrt(37 * %f + 52) = %f\n",
                 iteration, xPrev, xPrev, xNext));
 
         // Итерации до тех пор, пока разность между текущим и предыдущим значениями не станет меньше ε.
         while (Math.abs(xNext - xPrev) >= epsilon) {
             iteration++;
             xPrev = xNext; // присваиваем начальному значению вычисленное следующее
-            xNext = (0.5 - Math.pow(2, xPrev)) / 3; // следующее значение
+            xNext = computeNextValue(functionName, xPrev); // следующее значение
 
-            logBuilder.append(String.format("x%d. f(%f) = (0.5 -2^(%f))/3 = %f\n",
+            logBuilder.append(String.format(functionName.equals("A")
+                            ? "x%d. f(%f) = (0.5 -2^(%f))/3 = %f\n"
+                            : "x%d. f(%f) = cbrt(37 * %f + 52) = %f\n",
                     iteration, xPrev, xPrev, xNext));
         }
         LogFunctionMapper.logFunction(functionName, logBuilder.toString());
         return xNext;
+    }
+
+    private double computeNextValue(String functionName, double xPrev) {
+        if (functionName.equals("A")) {
+            return (0.5 - Math.pow(2, xPrev)) / 3; // следующее значение
+        } else {
+            return Math.cbrt(37 * xPrev + 52); // следующее значение для метода B
+        }
+    }
+
+    private String getFormula(String functionName) {
+        return functionName.equals("A") ? "x = (0.5 - 2^x)/3\n" : "x = cbrt(37 * x + 52)\n";
     }
 
     @Override
@@ -83,7 +102,6 @@ public class SuccessiveApproximations extends RootGeneralMethods{
                         "b = beta + (beta - alfa) = %.2f\n",
                 getValueA(), getValueB());
         log += String.format("%.2f < x < %.2f\n", getValueA(), getValueB());
-        log += "Формула: x = (0.5 - 2^x)/3\n";
         return log;
     }
 
