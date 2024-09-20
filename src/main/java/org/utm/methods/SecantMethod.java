@@ -5,6 +5,8 @@ import org.utm.logger.Logger;
 import org.utm.utils.Epsilons;
 import org.utm.utils.RealRoots;
 
+import java.util.function.Function;
+
 /**
  * Метод секущих для нахождения корней функции.
  */
@@ -23,20 +25,20 @@ public class SecantMethod {
     /**
      * Метод для инициализации метода и поиска корней.
      */
-    public static void initSecantMethod() {
+    public static void initSecantMethod(String functionName, Function<Double, Double> function) {
         // Записываем описание метода в файл
-        writeDescriptionMethodToFile();
+        writeDescriptionMethodToFile(functionName);
         // Решение
-        double root = secantMethodForFunctionA();
+        double root = secantMethod(function, functionName);
         System.out.println("Приближенное значение корня: " + root);
         // Проверка корня
-        verifyResult(root);
+        verifyResult(root, function);
     }
 
     /**
      * Краткое описание метода для лог файла результатов.
      */
-    private static void writeDescriptionMethodToFile() {
+    private static void writeDescriptionMethodToFile(String functionName) {
         // Описание метода
         String log = "Метод секущих\n".toUpperCase();
         log += "Формула: x(n+1) = x(n) - f(x(n)) * (x(n) - x(n-1)) / (f(x(n)) - f(x(n-1)))\n";
@@ -50,7 +52,7 @@ public class SecantMethod {
      *
      * @return приближенное значение корня для функции.
      */
-    private static double secantMethodForFunctionA() {
+    private static double secantMethod(Function<Double, Double> function, String functionName) {
         StringBuilder logBuilder = new StringBuilder();
         int iteration = 1;
 
@@ -69,7 +71,7 @@ public class SecantMethod {
             }
 
             // Вычисление следующего приближения
-            xNext = x1 - fx1 * (x1 -x0) / (fx1 - fx0);
+            xNext = x1 - fx1 * (x1 - x0) / (fx1 - fx0);
 
             // Логирование результатов
             logBuilder.append(String.format("x%d: x(%.6f) = %.6f - f(%.6f) * (%.6f - %.6f) / (f(%.6f) - f(%.6f)) = %.6f\n",
@@ -89,7 +91,7 @@ public class SecantMethod {
      *
      * @param root найденное приближенное значение корня.
      */
-    private static void verifyResult(double root) {
+    private static void verifyResult(double root, Function<Double, Double> function) {
         double functionValue = RealRoots.functionA(root);
         System.out.printf("Проверка корня: f(%f) = %f\n", root, functionValue);
     }

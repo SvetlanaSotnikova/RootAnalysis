@@ -9,11 +9,11 @@ public class Main {
 
     public static void main(String[] args) {
         // для начала необходимо найти интервал для дальнейших вычислений
-        RealRoots.findInterval(-20, 20, 1);
+        RealRoots.findInterval(RealRoots::functionA, -20, 20, 1);
         System.out.println("Интервал: " + RealRoots.getInterval());
         Logger.logFunctionA("Интервал" + RealRoots.getInterval());
         // 1) метод половинного деления
-        BisectionMethod.initBisectionMethod();
+        BisectionMethod.initBisectionMethod("A",RealRoots::functionA);
         // 2.1) метод итераций
         SuccessiveApproximations.initSuccessiveApproximations();
         // 2.2) метод Ньютона

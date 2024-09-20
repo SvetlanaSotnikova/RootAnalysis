@@ -9,12 +9,6 @@ import org.utm.utils.RealRoots;
  * Метод последовательных приближений
  */
 public class SuccessiveApproximations {
-    /**
-     * Константы для логирования в файл.
-     * Лог файл для функции A, используемый для записи хода вычислений.
-     */
-    private static final String LOG_FILE_FUNCTION_A = "src/main/resources/methodsFunctionA.txt";
-    private static final LogWriter logWriterA = msg -> Logger.writeToFile(msg, LOG_FILE_FUNCTION_A);
 
     /**
      * Константные значения интервала [alfa, beta], в котором ищется корень.
@@ -76,11 +70,12 @@ public class SuccessiveApproximations {
         log += "Формула: x = (0.5 - 2^x)/3\n";
 
         // запись информации о методе в файл
-        logWriterA.log(log);
+        Logger.logFunctionA(log);
     }
 
     /**
      * Метод для нахождения корня функции методом итераций
+     *
      * @return приближенное значение корня для функции из пункта (а)
      */
     private static double successiveApproximationsForFunctionA() {
