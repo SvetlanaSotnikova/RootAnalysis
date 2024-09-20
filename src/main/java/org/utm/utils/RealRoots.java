@@ -30,7 +30,7 @@ public class RealRoots {
      * @param x значение аргумента x
      * @return значение функции f(x) при данном x
      */
-    public double functionB(double x) {
+    public static double functionB(double x) {
         return Math.pow(x, 3) - 37 * x - 52;
     }
 
@@ -40,11 +40,14 @@ public class RealRoots {
      * Если обнаружено изменение знака, то устанавливаются значения alfa и beta,
      * как границы интервала, в котором лежит корень.
      *
+     * @param function вставляемая функция
      * @param start начало диапазона поиска
      * @param end   конец диапазона поиска
      * @param step  шаг между точками на интервале
      */
     public static void findInterval(Function<Double, Double> function, double start, double end, double step) {
+        alfa = 0;
+        beta = 0;
         double value = function.apply(start);
         for (double i = start + step; i <= end; i += step) {
             double currentValue = function.apply(i);

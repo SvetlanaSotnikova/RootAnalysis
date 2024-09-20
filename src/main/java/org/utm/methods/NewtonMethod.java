@@ -1,14 +1,18 @@
 package org.utm.methods;
 
+import org.utm.logger.LogFunctionMapper;
 import org.utm.logger.LogWriter;
 import org.utm.logger.Logger;
 import org.utm.utils.Epsilons;
 import org.utm.utils.RealRoots;
 
+import java.util.Objects;
+import java.util.function.Function;
+
 /**
  * Метод Ньютона (касательных) для нахождения корней функции.
  */
-public class NewtonMethod {
+public class NewtonMethod  extends RootGeneralMethods {
     /**
      * Константные значения интервала [alfa, beta] и точности ε для метода Ньютона.
      */
@@ -20,30 +24,6 @@ public class NewtonMethod {
      */
     private static final double epsilon = Epsilons.epsilonSuccessive; //1e-6
 
-    /**
-     * Метод для инициализации метода и поиска корней
-     */
-    public static void initNewtonMethod() {
-        // Записываем описание метода в файл
-        writeDescriptionMethodToFile();
-        // Решение
-        double root = newtonMethodForFunctionA();
-        System.out.println("Приближенное значение корня: " + root);
-        // Проверка корня
-        verifyResult(root);
-    }
-
-    /**
-     * Краткое описание метода для лог файла результатов
-     */
-    private static void writeDescriptionMethodToFile() {
-        // объяснение что это за метод
-        String log = "метод Ньютона(Касательных)\n".toUpperCase();
-        log += "Формула:x(n+1) = x(n) - f(x(n)) / f'(x(n))\\n";
-
-        // запись информации о методе в файл
-        Logger.logFunctionA(log);
-    }
 
     /**
      * Производная функции f(x) = 2^x + 3x - 0.5
@@ -56,12 +36,18 @@ public class NewtonMethod {
         return Math.log(2) * Math.pow(2, x) + 3;
     }
 
+
+    private static double derivativeB(double x) {
+        return 3 * Math.pow(x, 2) - 37;
+    }
+
     /**
      * Метод для нахождения корня функции методом Ньютона.
      *
      * @return приближенное значение корня для функции.
      */
-    private static double newtonMethodForFunctionA() {
+    @Override
+    protected double findRoot(Function<Double, Double> function, String functionName) {
         StringBuilder logBuilder = new StringBuilder();
         int iteration = 1;
         double xPrev = (alfa + beta) / 2; // начальное приблеженное значение
@@ -69,10 +55,11 @@ public class NewtonMethod {
 
         logBuilder.append("\nРезультат метода Ньютона:\n");
 
-        while (Math.abs(RealRoots.functionA(xNext)) >= epsilon) {
+        while (Math.abs(function.apply(xNext)) >= epsilon) {
             // Вычисляем значение функции и ее производной в текущей точке
-            double fx = RealRoots.functionA(xPrev);
-            double fxPrime = derivativeA(xPrev);
+            double fx = function.apply(xPrev);
+            double fxPrime = Objects.equals(functionName, "A") ? derivativeA(xPrev) : derivativeB(xPrev);
+
 
             // Проверяем, что производная не равна нулю, чтобы избежать деления на ноль
             if (fxPrime == 0) {
@@ -90,17 +77,16 @@ public class NewtonMethod {
             xPrev = xNext;
             iteration++;
         }
-        Logger.logFunctionA(logBuilder.toString());
+        // логирование
+        LogFunctionMapper.logFunction(functionName, logBuilder.toString());
         return xNext;
     }
 
-    /**
-     * Проверка корректности найденного корня.
-     *
-     * @param root найденное приближенное значение корня.
-     */
-    private static void verifyResult(double root) {
-        double functionValue = RealRoots.functionA(root);
-        System.out.printf("Проверка корня: f(%f) = %f\n", root, functionValue);
+    @Override
+    protected String getDescription() {
+        // объяснение что это за метод
+        String log = "метод Ньютона(Касательных)\n".toUpperCase();
+        log += "Формула:x(n+1) = x(n) - f(x(n)) / f'(x(n))\\n";
+        return log;
     }
 }

@@ -1,14 +1,17 @@
 package org.utm.methods;
 
+import org.utm.logger.LogFunctionMapper;
 import org.utm.logger.LogWriter;
 import org.utm.logger.Logger;
 import org.utm.utils.Epsilons;
 import org.utm.utils.RealRoots;
 
+import java.util.function.Function;
+
 /**
  * Метод последовательных приближений
  */
-public class SuccessiveApproximations {
+public class SuccessiveApproximations extends RootGeneralMethods{
 
     /**
      * Константные значения интервала [alfa, beta], в котором ищется корень.
@@ -43,42 +46,12 @@ public class SuccessiveApproximations {
     }
 
     /**
-     * Инициализирует метод последовательных приближений для функции A и выводит результат.
-     * Проводится логирование описания метода и найденного корня.
-     */
-    public static void initSuccessiveApproximations() {
-        // записываем описание метода в файл
-        writeDescriptionMethodToFile();
-        // решение
-        double root = successiveApproximationsForFunctionA();
-        System.out.println("Прилеженное значение корня: " + root);
-        // проверка корня
-        verifyResult(root);
-    }
-
-    /**
-     * описание метода и запись в файл
-     */
-    private static void writeDescriptionMethodToFile() {
-        String log = "метод итераций\n".toUpperCase(); // заголовок
-
-        log += "alfa = " + alfa + ", betta = " + beta + "\n";
-        log += String.format("a = alfa - (beta - alfa) = %.2f\n" +
-                        "b = beta + (beta - alfa) = %.2f\n",
-                getValueA(), getValueB());
-        log += String.format("%.2f < x < %.2f\n", getValueA(), getValueB());
-        log += "Формула: x = (0.5 - 2^x)/3\n";
-
-        // запись информации о методе в файл
-        Logger.logFunctionA(log);
-    }
-
-    /**
      * Метод для нахождения корня функции методом итераций
      *
      * @return приближенное значение корня для функции из пункта (а)
      */
-    private static double successiveApproximationsForFunctionA() {
+    @Override
+    protected double findRoot(Function<Double, Double> function, String functionName) {
         StringBuilder logBuilder = new StringBuilder();
 
         int iteration = 1;
@@ -97,19 +70,21 @@ public class SuccessiveApproximations {
             logBuilder.append(String.format("x%d. f(%f) = (0.5 -2^(%f))/3 = %f\n",
                     iteration, xPrev, xPrev, xNext));
         }
-        Logger.logFunctionA(logBuilder.toString());
+        LogFunctionMapper.logFunction(functionName, logBuilder.toString());
         return xNext;
     }
 
-    /**
-     * Проверка корректности найденного корня.
-     *
-     * @param root найденное приближенное значение корня.
-     */
-    private static void verifyResult(double root) {
-        double functionValue = (0.5 - Math.pow(2, root)) / 3;
-        System.out.printf("Проверка корня: f(%f) = %f\n", root, functionValue);
-    }
+    @Override
+    protected String getDescription() {
+        String log = "метод итераций\n".toUpperCase(); // заголовок
 
+        log += "alfa = " + alfa + ", betta = " + beta + "\n";
+        log += String.format("a = alfa - (beta - alfa) = %.2f\n" +
+                        "b = beta + (beta - alfa) = %.2f\n",
+                getValueA(), getValueB());
+        log += String.format("%.2f < x < %.2f\n", getValueA(), getValueB());
+        log += "Формула: x = (0.5 - 2^x)/3\n";
+        return log;
+    }
 
 }
