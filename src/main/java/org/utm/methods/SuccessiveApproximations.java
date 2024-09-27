@@ -54,11 +54,9 @@ public class SuccessiveApproximations extends RootGeneralMethods {
 
         int iteration = 1;
         double xPrev = (beta + alfa) / 2; // начальное значение
-        double xNext; // следующее значение
+        double xNext = computeNextValue(functionName, xPrev); // следующее значение
 
-        xNext = computeNextValue(functionName, xPrev);
-
-
+        // сохранение результатов в StringBuilder
         logBuilder.append("Формула: " + getFormula(functionName));
         logBuilder.append("Результат метода итераций: \n");
         logBuilder.append(String.format(functionName.equals("A")
@@ -69,30 +67,47 @@ public class SuccessiveApproximations extends RootGeneralMethods {
         // Итерации до тех пор, пока разность между текущим и предыдущим значениями не станет меньше ε.
         while (Math.abs(xNext - xPrev) >= epsilon) {
             iteration++;
-            xPrev = xNext; // присваиваем начальному значению вычисленное следующее
+            xPrev = xNext; // наччальное знаение = следующее
             xNext = computeNextValue(functionName, xPrev); // следующее значение
 
+            // последовательная запись результатов в StringBuilder
             logBuilder.append(String.format(functionName.equals("A")
                             ? "x%d. f(%f) = (0.5 -2^(%f))/3 = %f\n"
                             : "x%d. f(%f) = cbrt(37 * %f + 52) = %f\n",
                     iteration, xPrev, xPrev, xNext));
         }
-        LogFunctionMapper.logFunction(functionName, logBuilder.toString());
+        LogFunctionMapper.logFunction(functionName, logBuilder.toString()); // логирование
+
         return xNext;
     }
 
+    /**
+     * метод для определения xNext
+     * @param functionName буква функции в формате String
+     * @param xPrev текущее знаяение x
+     * @return вычисление следующего значения в зависимости от вычисляемой функции
+     */
     private double computeNextValue(String functionName, double xPrev) {
         if (functionName.equals("A")) {
-            return (0.5 - Math.pow(2, xPrev)) / 3; // следующее значение
+            return (0.5 - Math.pow(2, xPrev)) / 3;  // следующее значение для метода А
         } else {
-            return Math.cbrt(37 * xPrev + 52); // следующее значение для метода B
+            return Math.cbrt(37 * xPrev + 52);      // следующее значение для метода B
         }
     }
 
+    /**
+     * возвращает формулу в зависимости от функции
+     * @param functionName буква вычисляемой нами функции
+     * @return формула
+     */
     private String getFormula(String functionName) {
         return functionName.equals("A") ? "x = (0.5 - 2^x)/3\n" : "x = cbrt(37 * x + 52)\n";
     }
 
+    /**
+     * описание метода
+     * @return возвращает Sting формат описания метода
+     */
     @Override
     protected String getDescription() {
         String log = "метод итераций\n".toUpperCase(); // заголовок

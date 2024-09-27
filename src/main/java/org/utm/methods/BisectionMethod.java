@@ -16,14 +16,17 @@ public class BisectionMethod extends RootGeneralMethods {
      */
     private static final double epsilon = Epsilons.epsilonBisection; //1e-2
 
-
+    /**
+     * алгоритм метода секущих
+     * @param function - функция, которую мы на данный момент вычиляем A or B
+     * @param functionName - буквы нашей функции
+     * @return возвращает последний приблизительный корень уравлнения
+     */
     @Override
     protected double findRoot(Function<Double, Double> function, String functionName) {
 //        констнатные значения нашего интервала [a, b]
 //      a - alfa
 //      b - betta
-//      переменные должны менятся поэтому их значения перезаписанны
-//      внутри функции а не в виде константы в этом классе
         double alfa = RealRoots.alfa;
         double beta = RealRoots.beta;
 
@@ -53,7 +56,7 @@ public class BisectionMethod extends RootGeneralMethods {
                 break;
             }
 
-            // последовательная запись итераций
+            // последовательная запись итераций в StingBuilder
             logBuilder.append(String.format("x%d: a: %.4f, b: %.4f, c: %.4f, f(c) = %.4f\n",
                     iteration, alfa, beta, c, function.apply(c)));
 
@@ -71,6 +74,10 @@ public class BisectionMethod extends RootGeneralMethods {
     }
 
 
+    /**
+     * запись описания
+     * @return возвращает описание метода
+     */
     @Override
     protected String getDescription() {
         // объяснение что это за метод

@@ -2,6 +2,9 @@ package org.utm.logger;
 
 import java.io.*;
 
+/**
+ * класс для логирования результатов
+ */
 public class Logger implements LogWriter {
     private static final String LOG_FILE_FUNCTION_A = "src/main/resources/methodsFunctionA.txt";
     private static final String LOG_FILE_FUNCTION_B = "src/main/resources/methodsFunctionB.txt";

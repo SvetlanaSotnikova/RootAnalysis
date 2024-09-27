@@ -21,6 +21,12 @@ public class SecantMethod extends RootGeneralMethods{
     private static final double alfa = RealRoots.alfa;
     private static final double beta = RealRoots.beta;
 
+    /**
+     * алгоритм метода секущих
+     * @param function - функция, которую мы на данный момент вычиляем A or B
+     * @param functionName - буквы нашей функции
+     * @return возвращает последний приблизительный корень уравлнения
+     */
     @Override
     protected double findRoot(Function<Double, Double> function, String functionName) {
         StringBuilder logBuilder = new StringBuilder();
@@ -32,6 +38,7 @@ public class SecantMethod extends RootGeneralMethods{
         double xNext;
 
         logBuilder.append("Результат метода секущих:\n");
+        // вычисления
         while ((Math.abs(x1 - x0) >= epsilon)) {
             double fx0 = function.apply(x0);
             double fx1 = function.apply(x1);
@@ -44,7 +51,7 @@ public class SecantMethod extends RootGeneralMethods{
             // Вычисление следующего приближения
             xNext = x1 - fx1 * (x1 - x0) / (fx1 - fx0);
 
-            // Логирование результатов
+            // сохрнение результатов в StingBuilder
             logBuilder.append(String.format("x%d: x(%.6f) = %.6f - f(%.6f) * (%.6f - %.6f) / (f(%.6f) - f(%.6f)) = %.6f\n",
                     iteration, x1, x1, fx1, x1, x0, fx1, fx0, xNext));
 
@@ -52,11 +59,16 @@ public class SecantMethod extends RootGeneralMethods{
             x1 = xNext;
             iteration++;
         }
-        // Запись логов в файл
-        LogFunctionMapper.logFunction(functionName, logBuilder.toString());
+
+        LogFunctionMapper.logFunction(functionName, logBuilder.toString()); // Запись логов в файл
+
         return x1;
     }
 
+    /**
+     * записывает информацию о методе
+     * @return описание метода
+     */
     @Override
     protected String getDescription() {
         // Описание метода

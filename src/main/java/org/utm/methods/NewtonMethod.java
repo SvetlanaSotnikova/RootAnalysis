@@ -1,8 +1,6 @@
 package org.utm.methods;
 
 import org.utm.logger.LogFunctionMapper;
-import org.utm.logger.LogWriter;
-import org.utm.logger.Logger;
 import org.utm.utils.Epsilons;
 import org.utm.utils.RealRoots;
 
@@ -36,7 +34,13 @@ public class NewtonMethod  extends RootGeneralMethods {
         return Math.log(2) * Math.pow(2, x) + 3;
     }
 
-
+    /**
+     * Производная функции f(x) = x^3 - 37x - 52
+     * Производная f'(x) =  3x^2 - 37
+     *
+     * @param x аргумент
+     * @return значение производной
+     */
     private static double derivativeB(double x) {
         return 3 * Math.pow(x, 2) - 37;
     }
@@ -82,6 +86,9 @@ public class NewtonMethod  extends RootGeneralMethods {
         return xNext;
     }
 
+    /**
+     * @return описание метода
+     */
     @Override
     protected String getDescription() {
         // объяснение что это за метод
