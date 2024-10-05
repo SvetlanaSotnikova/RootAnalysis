@@ -2,7 +2,8 @@ package org.utm.methods;
 
 import org.utm.logger.LogFunctionMapper;
 import org.utm.utils.Epsilons;
-import org.utm.utils.RealRoots;
+import org.utm.utils.Interval;
+
 import java.util.function.Function;
 
 /**
@@ -16,6 +17,14 @@ public class BisectionMethod extends RootGeneralMethods {
      */
     private static final double epsilon = Epsilons.epsilonBisection; //1e-2
 
+    private double alfa;
+    private double beta;
+
+    public BisectionMethod(Interval interval) {
+        this.alfa = interval.alfa();
+        this.beta = interval.beta();
+    }
+
     /**
      * алгоритм метода секущих
      * @param function - функция, которую мы на данный момент вычиляем A or B
@@ -24,12 +33,6 @@ public class BisectionMethod extends RootGeneralMethods {
      */
     @Override
     protected double findRoot(Function<Double, Double> function, String functionName) {
-//        констнатные значения нашего интервала [a, b]
-//      a - alfa
-//      b - betta
-        double alfa = RealRoots.alfa;
-        double beta = RealRoots.beta;
-
         double fa = function.apply(alfa);
         double fb = function.apply(beta);
 
@@ -85,7 +88,7 @@ public class BisectionMethod extends RootGeneralMethods {
         // запись нашего интервала в файла
 
         log += String.format("Формула: (a + b)/2, где a - начало интервала [%f], b - конец интевала [%f]",
-                RealRoots.alfa, RealRoots.beta);
+                alfa, beta);
         return log;
     }
 }

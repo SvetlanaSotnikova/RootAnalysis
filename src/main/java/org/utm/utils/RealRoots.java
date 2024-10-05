@@ -48,9 +48,10 @@ public class RealRoots {
      * @param end   конец диапазона поиска
      * @param step  шаг между точками на интервале
      */
-    public static void findInterval(Function<Double, Double> function, double start, double end, double step) {
-        alfa = 0;
+    public static Interval findInterval(Function<Double, Double> function, double start, double end, double step) {
+        alfa = 0; // начало интервала
         beta = 0;
+
         double value = function.apply(start);
         for (double i = start + step; i <= end; i += step) {
             double currentValue = function.apply(i);
@@ -62,6 +63,7 @@ public class RealRoots {
             }
             value = currentValue;
         }
+        return new Interval(alfa, beta);
     }
 
     /**

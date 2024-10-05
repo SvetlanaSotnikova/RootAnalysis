@@ -3,42 +3,52 @@ import org.utm.methods.BisectionMethod;
 import org.utm.methods.NewtonMethod;
 import org.utm.methods.SecantMethod;
 import org.utm.methods.SuccessiveApproximations;
+import org.utm.utils.Interval;
 import org.utm.utils.RealRoots;
 
 public class Main {
 
     public static void main(String[] args) {
-//         для начала необходимо найти интервал для дальнейших вычислений
-//        RealRoots.findInterval(RealRoots::functionA, -20, 20, 1);
-//        System.out.println("Интервал функции A: " + RealRoots.getInterval());
-//        Logger.logFunctionA("Интервал" + RealRoots.getInterval());
+        // 1. Поиск интервала для функции A
+        Interval intervalA = RealRoots.findInterval(RealRoots::functionA, -20, 20, 1);
+        String intervalAStr = RealRoots.getInterval(); // Получаем интервал для A
+        System.out.println("Интервал функции A: " + intervalAStr);
+        Logger.logFunctionA("Интервал: " + intervalAStr);
 
-        // для начала необходимо найти интервал для дальнейших вычислений
-        RealRoots.findInterval(RealRoots::functionB, -20, 20, 1);
-        System.out.println("Интервал функции B: " + RealRoots.getInterval());
-        Logger.logFunctionB("Интервал" + RealRoots.getInterval());
+        // Создаем объекты методов для функции A
+        BisectionMethod bisectionMethodA = new BisectionMethod(intervalA);
+        SuccessiveApproximations successiveApproximationsA = new SuccessiveApproximations(intervalA);
+        NewtonMethod newtonMethodA = new NewtonMethod(intervalA);
+        SecantMethod secantMethodA = new SecantMethod(intervalA);
 
-        BisectionMethod bisectionMethod = new BisectionMethod();
-        SuccessiveApproximations successiveApproximations = new SuccessiveApproximations();
-        NewtonMethod newtonMethod = new NewtonMethod();
-        SecantMethod secantMethod = new SecantMethod();
+        // 1) Метод половинного деления для A
+        bisectionMethodA.initMethod("A", RealRoots::functionA);
+        // 2.1) Метод итераций для A
+        successiveApproximationsA.initMethod("A", RealRoots::functionA);
+        // 2.2) Метод Ньютона для A
+        newtonMethodA.initMethod("A", RealRoots::functionA);
+        // 2.3) Метод секущих для A
+        secantMethodA.initMethod("A", RealRoots::functionA);
 
-//        // 1) метод половинного деления
-//        bisectionMethod.initMethod("A", RealRoots::functionA);
-//        // 2.1) метод итераций
-//        successiveApproximations.initMethod("A", RealRoots::functionA);
-//        // 2.2) метод Ньютона
-//        newtonMethod.initMethod("A", RealRoots::functionA);
-//        // 2.3) Метод Секущих
-//        secantMethod.initMethod("A", RealRoots::functionA);
+        // 2. Поиск интервала для функции B
+        Interval intervalB = RealRoots.findInterval(RealRoots::functionB, -20, 20, 1);
+        String intervalBStr = RealRoots.getInterval(); // Получаем интервал для B
+        System.out.println("Интервал функции B: " + intervalBStr);
+        Logger.logFunctionB("Интервал: " + intervalBStr);
 
-        // 1) метод половинного деления
-        bisectionMethod.initMethod("B", RealRoots::functionB);
-        // 2.1) метод итераций
-        successiveApproximations.initMethod("B", RealRoots::functionB);
-        // 2.2) метод Ньютона
-        newtonMethod.initMethod("B", RealRoots::functionB);
-        // 2.3) Метод Секущих
-        secantMethod.initMethod("B", RealRoots::functionB);
+        // Создаем объекты методов для функции B
+        BisectionMethod bisectionMethodB = new BisectionMethod(intervalB);
+        SuccessiveApproximations successiveApproximationsB = new SuccessiveApproximations(intervalB);
+        NewtonMethod newtonMethodB = new NewtonMethod(intervalB);
+        SecantMethod secantMethodB = new SecantMethod(intervalB);
+
+        // 1) Метод половинного деления для B
+        bisectionMethodB.initMethod("B", RealRoots::functionB);
+        // 2.1) Метод итераций для B
+        successiveApproximationsB.initMethod("B", RealRoots::functionB);
+        // 2.2) Метод Ньютона для B
+        newtonMethodB.initMethod("B", RealRoots::functionB);
+        // 2.3) Метод секущих для B
+        secantMethodB.initMethod("B", RealRoots::functionB);
     }
 }

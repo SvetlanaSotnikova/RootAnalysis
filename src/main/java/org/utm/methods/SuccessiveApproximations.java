@@ -2,7 +2,7 @@ package org.utm.methods;
 
 import org.utm.logger.LogFunctionMapper;
 import org.utm.utils.Epsilons;
-import org.utm.utils.RealRoots;
+import org.utm.utils.Interval;
 
 import java.util.function.Function;
 
@@ -15,8 +15,13 @@ public class SuccessiveApproximations extends RootGeneralMethods {
      * Константные значения интервала [alfa, beta], в котором ищется корень.
      * Значения получаются из класса RealRoots.
      */
-    private static final double alfa = RealRoots.alfa;
-    private static final double beta = RealRoots.beta;
+    private final double alfa;
+    private final double beta;
+
+    public SuccessiveApproximations(Interval interval) {
+        this.alfa = interval.alfa();
+        this.beta = interval.beta();
+    }
 
     /**
      * Значение точности (ε) для метода последовательных приближений.
@@ -30,7 +35,7 @@ public class SuccessiveApproximations extends RootGeneralMethods {
      *
      * @return Значение A.
      */
-    private static double getValueA() {
+    private static double getValueA(double alfa, double beta) {
         return alfa - (beta - alfa);
     }
 
@@ -39,7 +44,7 @@ public class SuccessiveApproximations extends RootGeneralMethods {
      *
      * @return Значение B.
      */
-    private static double getValueB() {
+    private static double getValueB(double alfa, double beta) {
         return beta + (beta - alfa);
     }
 
@@ -115,8 +120,8 @@ public class SuccessiveApproximations extends RootGeneralMethods {
         log += "alfa = " + alfa + ", betta = " + beta + "\n";
         log += String.format("a = alfa - (beta - alfa) = %.2f\n" +
                         "b = beta + (beta - alfa) = %.2f\n",
-                getValueA(), getValueB());
-        log += String.format("%.2f < x < %.2f\n", getValueA(), getValueB());
+                getValueA(alfa,beta ), getValueB(alfa,beta));
+        log += String.format("%.2f < x < %.2f\n", getValueA(alfa,beta), getValueB(alfa,beta));
         return log;
     }
 

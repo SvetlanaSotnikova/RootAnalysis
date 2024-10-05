@@ -2,7 +2,7 @@ package org.utm.methods;
 
 import org.utm.logger.LogFunctionMapper;
 import org.utm.utils.Epsilons;
-import org.utm.utils.RealRoots;
+import org.utm.utils.Interval;
 
 import java.util.Objects;
 import java.util.function.Function;
@@ -14,8 +14,13 @@ public class NewtonMethod  extends RootGeneralMethods {
     /**
      * Константные значения интервала [alfa, beta] и точности ε для метода Ньютона.
      */
-    private static final double alfa = RealRoots.alfa;
-    private static final double beta = RealRoots.beta;
+    private double alfa;
+    private double beta;
+
+    public NewtonMethod(Interval interval) {
+        this.alfa = interval.alfa();
+        this.beta = interval.beta();
+    }
 
     /**
      * Точность (ε) для метода Ньютона.
